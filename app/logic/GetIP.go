@@ -4,8 +4,10 @@ import (
 	"IP/app/model"
 	"encoding/json"
 	"fmt"
+	"github.com/bwmarrin/snowflake"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -136,5 +138,39 @@ func GetYu(c *gin.Context) {
 			return
 		}
 	}
-	c.String(http.StatusOK, textData)
+	//c.String(http.StatusOK, textData)
+	id := GetUID()
+	filePath := strconv.Itoa(int(id)) + ".txt"
+	err = os.WriteFile(filePath, []byte(textData), 0644)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法写入文件"})
+		return
+	}
+	idStr := strconv.Itoa(int(id))
+	c.JSON(http.StatusOK, gin.H{"id": idStr})
+	fmt.Println(id)
+}
+func GetTextData(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "参数错误"})
+		return
+	}
+	filePath := id + ".txt"
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法读取文件"})
+		return
+	}
+
+	c.String(http.StatusOK, string(data))
+}
+
+var snowNode *snowflake.Node
+
+func GetUID() int64 {
+	if snowNode == nil {
+		snowNode, _ = snowflake.NewNode(1)
+	}
+	return snowNode.Generate().Int64()
 }

@@ -21,6 +21,7 @@ func main() {
 	r.POST("/getYu", logic.GetYu)
 	r.GET("/getUP", logic.GetUPS)
 	r.GET("/getIP", logic.GetIP)
+	r.GET("/Api/Data", logic.GetTextData)
 
 	if err := r.Run(":8081"); err != nil {
 		panic("gin 启动失败")
