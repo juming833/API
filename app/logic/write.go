@@ -14,8 +14,6 @@ type IPData struct {
 	Timestamp string `json:"timestamp"`
 }
 
-var IDList []string
-
 func Write(c *gin.Context) {
 	if err := c.Request.ParseForm(); err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
