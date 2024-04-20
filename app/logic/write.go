@@ -14,7 +14,7 @@ type IPData struct {
 	Timestamp string `json:"timestamp"`
 }
 
-var ID string
+var IDList []string
 
 func Write(c *gin.Context) {
 	if err := c.Request.ParseForm(); err != nil {
@@ -23,7 +23,9 @@ func Write(c *gin.Context) {
 	}
 	id := c.PostForm("id")
 	data := c.PostForm("data")
-	ID = id
+
+	//IDList = append(IDList, id)
+	//fmt.Println(IDList)
 	if id == "" || data == "" {
 		c.JSON(400, gin.H{"error": "接收数据的格式错误"})
 		fmt.Println(1)
@@ -69,6 +71,7 @@ func Write(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
+
 	c.JSON(200, gin.H{"message": "存入redis成功"})
 }
 
