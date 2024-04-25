@@ -4,10 +4,13 @@ import (
 	"IP/app/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func GetIPS(c *gin.Context) {
-	ret := model.GetIPS()
+	id := c.Query("id")
+	Id, _ := strconv.Atoi(id)
+	ret := model.GetIPS(Id)
 	c.JSON(http.StatusOK, gin.H{"ip": ret})
 }
 func GetUPS(c *gin.Context) {

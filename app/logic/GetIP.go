@@ -53,7 +53,6 @@ func GetYu(c *gin.Context) {
 	keys := GetRedisKeys(c)
 	data := make(map[string]map[string]map[string]string)
 
-	// 遍历每个键并获取对应的数据
 	for _, key := range keys {
 		jsonData, err := model.Rdb.Get(c, key).Bytes()
 		if err != nil {
@@ -67,7 +66,6 @@ func GetYu(c *gin.Context) {
 		}
 		data[key] = tempData
 	}
-
 	ret := model.GetAllIPs()
 	finalIPs := make(map[string]string)
 	for _, ip := range ret {
@@ -90,7 +88,6 @@ func GetYu(c *gin.Context) {
 			}
 		}
 	}
-
 	res := model.GetUPS()
 	finalResponse := make([]map[string]string, 0)
 	for _, project := range res {
@@ -107,21 +104,22 @@ func GetYu(c *gin.Context) {
 
 			deleteTime := strconv.Itoa(project.DeleteTime)
 			tm, _ := strconv.ParseInt(deleteTime, 10, 64)
-			port := ""
+			Port := ""
 			switch project.Type {
 			case 1:
-				port = strconv.Itoa(project.SocksPort)
+				Port = strconv.Itoa(project.SocksPort)
 			case 2:
-				port = strconv.Itoa(project.HttpPort)
+				Port = strconv.Itoa(project.HttpPort)
 			case 3:
-				port = strconv.Itoa(project.SsuPort)
+				Port = strconv.Itoa(project.SsuPort)
 			}
-			ipWithPort := IP
-			if port != "" {
-				ipWithPort += ":" + port
-			}
+			//ipWithPort := IP
+			//if port != "" {
+			//	ipWithPort += ":" + port
+			//}
 			finalResponse = append(finalResponse, map[string]string{
-				"ip":          ipWithPort,
+				"ip":          IP,
+				"port":        Port,
 				"username":    project.Username,
 				"password":    project.Password,
 				"delete_time": time.Unix(tm, 0).Format("2006-01-02 15:04:05"),
@@ -132,14 +130,15 @@ func GetYu(c *gin.Context) {
 	var textData string
 	for _, data := range finalResponse {
 		ip := data["ip"]
+		port := data["port"]
 		username := data["username"]
 		password := data["password"]
 		deleteTime := data["delete_time"]
 		if idlist.FormatID == 1 {
-			line := fmt.Sprintf("%s %s %s %s\n", ip, username, password, deleteTime)
+			line := fmt.Sprintf("%s:%s %s %s %s\n", ip, port, username, password, deleteTime)
 			textData += line
 		} else if idlist.FormatID == 2 {
-			line := fmt.Sprintf("%s| %s| %s| %s\n", ip, username, password, deleteTime)
+			line := fmt.Sprintf("%s|%s|%s|%s|%s\n", ip, port, username, password, deleteTime)
 			textData += line
 		}
 	}

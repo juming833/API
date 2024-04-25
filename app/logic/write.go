@@ -21,24 +21,21 @@ func Write(c *gin.Context) {
 	}
 	id := c.PostForm("id")
 	data := c.PostForm("data")
-
-	//IDList = append(IDList, id)
-	//fmt.Println(IDList)
 	if id == "" || data == "" {
 		c.JSON(400, gin.H{"error": "接收数据的格式错误"})
 		fmt.Println(1)
 		return
 	}
-	exists, err := model.Rdb.Exists(c, id).Result()
-	if err != nil {
-		c.JSON(500, gin.H{"error": "查找redis失败"})
-		return
-	}
-	if exists != 0 {
-		c.JSON(400, gin.H{"error": "域名已经存在"})
-		fmt.Println(2)
-		return
-	}
+	//exists, err := model.Rdb.Exists(c, id).Result()
+	//if err != nil {
+	//	c.JSON(500, gin.H{"error": "查找redis失败"})
+	//	return
+	//}
+	//if exists != 0 {
+	//	c.JSON(400, gin.H{"error": "域名已经存在"})
+	//	fmt.Println(2)
+	//	return
+	//}
 	// 分割data中的每个键值对
 	keyValuePairs := strings.Split(data, "#")
 	ipMap := make(map[string]IPData)

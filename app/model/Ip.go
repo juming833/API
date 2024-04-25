@@ -5,9 +5,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetIPS() []IpList {
-	ret := make([]IpList, 0)
-	if err := Conn.Table("ip_list").Find(&ret).Error; err != nil {
+func GetIPS(id int) []IpList {
+	var ret []IpList
+	if err := Conn.Table("ip_list").Where("ms_i_d_id = ?", id).Find(&ret).Error; err != nil {
 		fmt.Printf("err:%s", err.Error())
 	}
 	return ret
@@ -67,6 +67,15 @@ func GetUPS() []Res {
 	return results
 }
 func AddApiList(Info ApiList) error {
+	err := Conn.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&Info).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+	return err
+}
+func AddShort(Info ShortUserProject) error {
 	err := Conn.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Create(&Info).Error; err != nil {
 			return err

@@ -96,3 +96,34 @@ type ApiList struct {
 func (m *ApiList) TableName() string {
 	return "api_list"
 }
+
+type Game struct {
+	Id      int     `gorm:"column:id;type:int(11);NOT NULL" json:"id"`
+	Name    string  `gorm:"column:name;type:varchar(60);NOT NULL" json:"name"`
+	MaxConn int     `gorm:"column:max_conn;type:int(11);default:0;NOT NULL" json:"max_conn"`
+	UpData  int     `gorm:"column:up_data;type:int(11);default:0;NOT NULL" json:"up_data"`
+	DwData  int     `gorm:"column:dw_data;type:int(11);default:0;NOT NULL" json:"dw_data"`
+	Money   float64 `gorm:"column:money;type:decimal(10,2);default:1.00;NOT NULL" json:"money"`
+	Info    string  `gorm:"column:info;type:varchar(150);NOT NULL" json:"info"`
+	Info2   string  `gorm:"column:info2;type:varchar(500);NOT NULL" json:"info2"`
+}
+
+func (m *Game) TableName() string {
+	return "game"
+}
+
+type ShortUserProject struct {
+	Id         int    `gorm:"column:id;type:int(11);NOT NULL" json:"id"`
+	Type       int    `gorm:"column:type;type:int(11);NOT NULL" json:"type"`
+	GameId     int    `gorm:"column:game_id;type:int(11);NOT NULL" json:"game_id"`
+	UserId     int    `gorm:"column:user_id;type:int(11);NOT NULL" json:"user_id"`
+	BuyCount   int    `gorm:"column:buy_count;type:int(11);NOT NULL" json:"buy_count"`
+	ModeId     int    `gorm:"column:mode_id;type:int(11);NOT NULL" json:"mode_id"`
+	MsId       int    `gorm:"column:ms_id;type:int(11);NOT NULL" json:"ms_id"`
+	DeleteTime string `gorm:"column:delete_time;type:date;NOT NULL" json:"delete_time"`
+	CreatTime  string `gorm:"column:creat_time;type:date;NOT NULL" json:"creat_time"`
+}
+
+func (m *ShortUserProject) TableName() string {
+	return "short_user_project"
+}
