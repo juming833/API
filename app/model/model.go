@@ -114,14 +114,14 @@ func (m *Game) TableName() string {
 
 type ShortUserProject struct {
 	Id         int    `gorm:"column:id;type:int(11);NOT NULL" json:"id"`
-	Type       int    `gorm:"column:type;type:int(11);NOT NULL" json:"type"`
-	GameId     int    `gorm:"column:game_id;type:int(11);NOT NULL" json:"game_id"`
-	UserId     int    `gorm:"column:user_id;type:int(11);NOT NULL" json:"user_id"`
+	UserId     string `gorm:"column:user_id;type:varchar(30);NOT NULL" json:"user_id"`
+	Username   string `gorm:"column:username;type:varchar(30);NOT NULL" json:"username"`
+	Password   string `gorm:"column:password;type:varchar(30);NOT NULL" json:"password"`
 	BuyCount   int    `gorm:"column:buy_count;type:int(11);NOT NULL" json:"buy_count"`
-	ModeId     int    `gorm:"column:mode_id;type:int(11);NOT NULL" json:"mode_id"`
-	MsId       int    `gorm:"column:ms_id;type:int(11);NOT NULL" json:"ms_id"`
-	DeleteTime string `gorm:"column:delete_time;type:date;NOT NULL" json:"delete_time"`
-	CreatTime  string `gorm:"column:creat_time;type:date;NOT NULL" json:"creat_time"`
+	MsId       string `gorm:"column:ms_id;type:varchar(30);NOT NULL" json:"ms_id"`
+	ApiId      string `gorm:"column:api_id;type:varchar(30);NOT NULL" json:"api_id"`
+	CreatTime  string `gorm:"column:creat_time;type:varchar(30);NOT NULL" json:"creat_time"`
+	DeleteTime string `gorm:"column:delete_time;type:varchar(30);NOT NULL" json:"delete_time"`
 }
 
 func (m *ShortUserProject) TableName() string {

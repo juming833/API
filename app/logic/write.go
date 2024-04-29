@@ -14,6 +14,7 @@ type IPData struct {
 	Timestamp string `json:"timestamp"`
 }
 
+// Write 接收拨号自动更新Redis数据
 func Write(c *gin.Context) {
 	if err := c.Request.ParseForm(); err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
@@ -63,7 +64,6 @@ func Write(c *gin.Context) {
 	}
 	if err := model.Rdb.Set(c, id, jsonData, 0).Err(); err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
-		fmt.Println(err)
 		return
 	}
 
@@ -75,7 +75,6 @@ func Read(c *gin.Context) {
 	jsonData, err := model.Rdb.Get(c, "quzhous501").Bytes()
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
-		fmt.Println(err)
 		return
 	}
 	//var ipMap map[string]IPData

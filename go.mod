@@ -6,7 +6,6 @@ require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gin-contrib/cors v1.7.1
 	github.com/gin-gonic/gin v1.9.1
-	github.com/google/uuid v1.6.0
 	github.com/redis/go-redis/v9 v9.5.1
 	gorm.io/driver/mysql v1.5.6
 	gorm.io/gorm v1.25.9
