@@ -64,7 +64,7 @@ func main() {
 	r.GET("/black/delall", func(c *gin.Context) {
 		logic.DelAllBlack(c, key)
 	})
-	//r.GET("/redis", logic.GetData)
+	r.GET("/api/get", logic.GetData)
 	if err := r.Run(":8081"); err != nil {
 
 		panic("gin 启动失败")

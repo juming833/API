@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 func GetIPS(c *gin.Context) {
@@ -34,7 +35,13 @@ func GetGame(c *gin.Context) {
 
 }
 func GetRedisKeys(c *gin.Context) []string {
-	keys := model.Rdb.Keys(c, "*").Val()
+	allKeys := model.Rdb.Keys(c, "*").Val()
+	keys := make([]string, 0)
+	for _, k := range allKeys {
+		if !strings.HasPrefix(k, "userData") {
+			keys = append(keys, k)
+		}
+	}
 	return keys
 }
 func GetInfo(c *gin.Context) {
